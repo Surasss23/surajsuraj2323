@@ -1,184 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sphoortians</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to bottom right, #1e90ff, #87cefa);
-            color: white;
-            overflow-x: hidden;
-        }
-
-        header {
-            text-align: center;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.3);
-            font-size: 2rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            animation: glow 2s infinite alternate;
-        }
-
-        @keyframes glow {
-            0% { text-shadow: 0 0 10px #fff, 0 0 20px #87cefa, 0 0 30px #1e90ff; }
-            100% { text-shadow: 0 0 20px #fff, 0 0 40px #87cefa, 0 0 60px #1e90ff; }
-        }
-
-        .notification {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: black;
-            padding: 20px;
-            margin: 20px auto;
-            width: 90%;
-            border-radius: 15px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .notification p {
-            font-family: 'Courier New', Courier, monospace;
-            color: #00ff00;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
-            animation: blink 0.5s step-end infinite alternate;
-        }
-
-        @keyframes blink {
-            from { opacity: 1; }
-            to { opacity: 0.6; }
-        }
-
-        .subjects {
-            width: 90%;
-            margin: 20px auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .subject {
-            margin: 10px 0;
-        }
-
-        .subject h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            color: #fff;
-        }
-
-        .sem-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .sem-links a {
-            padding: 10px 15px;
-            background: #1e90ff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            text-align: center;
-            transition: background 0.3s;
-        }
-
-        .sem-links a:hover {
-            background: #104e8b;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            font-size: 1.5rem;
-            position: relative;
-        }
-
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            height: 2px;
-            width: 80%;
-            background: white;
-        }
-    </style>
+  <title>Porter Daily Competition</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>Sphoortians</header>
 
-    <div class="notification">
-        <p>We currently do not have the links for your course and semester results. Kindly provide the relevant links in the chat, and we will update them at the earliest.</p>
-    </div>
+<div class="box">
+  <h1>🚚 Porter Daily Competition</h1>
+  <p class="time">Live: 10 AM – 6 PM</p>
 
-    <div class="subjects">
-        <div class="subject">
-            <h3>BCA</h3>
-            <div class="sem-links">
-                <a href="#">First Sem</a>
-                <a href="#">Second Sem</a>
-                <a href="#">Third Sem</a>
-                <a href="#">Fourth Sem</a>
-                <a href="#">Fifth Sem</a>
-                <a href="#">Sixth Sem</a>
-            </div>
-        </div>
-        <div class="subject">
-            <h3>BCOM</h3>
-            <div class="sem-links">
-                <a href="#">First Sem</a>
-                <a href="#">Second Sem</a>
-                <a href="#">Third Sem</a>
-                <a href="#">Fourth Sem</a>
-                <a href="#">Fifth Sem</a>
-                <a href="#">Sixth Sem</a>
-            </div>
-        </div>
-        <div class="subject">
-            <h3>BSC (MPCS)</h3>
-            <div class="sem-links">
-                <a href="#">First Sem</a>
-                <a href="#">Second Sem</a>
-                <a href="#">Third Sem</a>
-                <a href="#">Fourth Sem</a>
-                <a href="#">Fifth Sem</a>
-                <a href="#">Sixth Sem</a>
-            </div>
-        </div>
-        <div class="subject">
-            <h3>BSC (MSCS)</h3>
-            <div class="sem-links">
-                <a href="#">First Sem</a>
-                <a href="#">Second Sem</a>
-                <a href="#">Third Sem</a>
-                <a href="#">Fourth Sem</a>
-                <a href="#">Fifth Sem</a>
-                <a href="#">Sixth Sem</a>
-            </div>
-        </div>
-        <div class="subject">
-            <h3>BCS (Data Science)</h3>
-            <div class="sem-links">
-                <a href="#">First Sem</a>
-                <a href="#">Second Sem</a>
-                <a href="#">Third Sem</a>
-                <a href="#">Fourth Sem</a>
-                <a href="#">Fifth Sem</a>
-                <a href="#">Sixth Sem</a>
-            </div>
-        </div>
-    </div>
+  <h2>Participants</h2>
+  <ul id="participants"></ul>
 
-    <footer>Made with love from 23</footer>
+  <div id="winner" class="hidden">
+    <h2>🏆 Winner</h2>
+    <p id="winnerName"></p>
+    <img id="proofImg">
+    <img id="qr">
+    <a id="payBtn">Pay ₹20</a>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
