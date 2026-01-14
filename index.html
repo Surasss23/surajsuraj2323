@@ -1,27 +1,739 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Porter Daily Competition</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Contest - Participant Tracker</title>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<div class="box">
-  <h1>🚚 Porter Daily Competition</h1>
-  <p class="time">Live: 10 AM – 6 PM</p>
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
 
-  <h2>Participants</h2>
-  <ul id="participants"></ul>
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
 
-  <div id="winner" class="hidden">
-    <h2>🏆 Winner</h2>
-    <p id="winnerName"></p>
-    <img id="proofImg">
-    <img id="qr">
-    <a id="payBtn">Pay ₹20</a>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(-45deg, #020617, #0c1844, #1e3a8a, #1e293b, #0f172a, #0a1628);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    .main-wrapper {
+      width: 100%;
+      min-height: 100%;
+      overflow-y: auto;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* Live Indicator */
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(239, 68, 68, 0.6), 0 0 40px rgba(239, 68, 68, 0.3);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(239, 68, 68, 0.8), 0 0 60px rgba(239, 68, 68, 0.5);
+        transform: scale(1.02);
+      }
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(15, 15, 25, 0.6);
+      backdrop-filter: blur(20px);
+      border: 2px solid #ef4444;
+      padding: 12px 28px;
+      border-radius: 50px;
+      margin-bottom: 24px;
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 10px #ef4444;
+      }
+      50% {
+        opacity: 0.4;
+        box-shadow: 0 0 20px #ef4444;
+      }
+    }
+
+    .live-dot {
+      width: 12px;
+      height: 12px;
+      background: #ef4444;
+      border-radius: 50%;
+      animation: blink 1.2s ease-in-out infinite;
+    }
+
+    .live-text {
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 3px;
+      color: #ff5555;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+    }
+
+    /* Winner Button - Now at top */
+    @keyframes bounceIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.3) translateY(-50px);
+      }
+      50% {
+        transform: scale(1.05) translateY(0);
+      }
+      70% {
+        transform: scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -200% center;
+      }
+      100% {
+        background-position: 200% center;
+      }
+    }
+
+    @keyframes trophyBounce {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      25% {
+        transform: translateY(-8px) rotate(-5deg);
+      }
+      75% {
+        transform: translateY(-4px) rotate(5deg);
+      }
+    }
+
+    .winner-button-wrapper {
+      display: none;
+      margin-bottom: 20px;
+    }
+
+    .winner-button-wrapper.active {
+      display: flex;
+      justify-content: center;
+      animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .winner-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #f59e0b 0%, #f97316 50%, #dc2626 100%);
+      background-size: 200% 200%;
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 800;
+      padding: 18px 48px;
+      border-radius: 50px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: all 0.4s ease;
+      box-shadow: 0 8px 30px rgba(245, 158, 11, 0.5), 0 0 60px rgba(245, 158, 11, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .winner-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -200%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      animation: shimmer 2.5s infinite;
+    }
+
+    .winner-button:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 12px 40px rgba(245, 158, 11, 0.7), 0 0 80px rgba(245, 158, 11, 0.5);
+      background-position: 100% center;
+    }
+
+    .winner-button:active {
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    .trophy-icon {
+      font-size: 28px;
+      animation: trophyBounce 1.5s ease-in-out infinite;
+    }
+
+    /* Header */
+    @keyframes textGlow {
+      0%, 100% {
+        filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 50px rgba(96, 165, 250, 0.6));
+      }
+      50% {
+        filter: drop-shadow(0 0 40px rgba(59, 130, 246, 1)) drop-shadow(0 0 70px rgba(96, 165, 250, 0.9));
+      }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .main-title {
+      font-size: 42px;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      animation: textGlow 3s ease-in-out infinite;
+      text-shadow: 0 0 30px rgba(96, 165, 250, 1), 
+                   0 0 60px rgba(59, 130, 246, 0.8),
+                   0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: #ffffff;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(96, 165, 250, 0.5);
+    }
+
+    /* Glass Card Effect */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .glass-card {
+      background: rgba(15, 30, 60, 0.5);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(96, 165, 250, 0.2);
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 
+                  0 0 60px rgba(59, 130, 246, 0.1),
+                  inset 0 1px 0 rgba(96, 165, 250, 0.15);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    /* Date Card */
+    .date-card {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .date-label {
+      font-size: 11px;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      font-weight: 600;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 15px rgba(96, 165, 250, 0.4);
+    }
+
+    .date-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: #60a5fa;
+      text-shadow: 0 0 25px rgba(96, 165, 250, 1), 
+                   0 0 50px rgba(59, 130, 246, 0.7),
+                   0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Timer Card */
+    .timer-card {
+      padding: 32px 24px;
+      text-align: center;
+      animation-delay: 0.2s;
+    }
+
+    .timer-label {
+      font-size: 13px;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+      font-weight: 700;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 25px rgba(96, 165, 250, 0.5);
+    }
+
+    .timer-display {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    @keyframes digitGlow {
+      0%, 100% {
+        box-shadow: 0 0 30px rgba(59, 130, 246, 0.5), 
+                    0 0 60px rgba(59, 130, 246, 0.2),
+                    inset 0 0 20px rgba(59, 130, 246, 0.1);
+      }
+      50% {
+        box-shadow: 0 0 50px rgba(59, 130, 246, 0.8), 
+                    0 0 80px rgba(59, 130, 246, 0.4),
+                    inset 0 0 30px rgba(59, 130, 246, 0.2);
+      }
+    }
+
+    .time-unit {
+      background: rgba(59, 130, 246, 0.15);
+      border: 2px solid rgba(59, 130, 246, 0.4);
+      border-radius: 16px;
+      padding: 20px;
+      min-width: 90px;
+      animation: digitGlow 2s ease-in-out infinite;
+      transition: all 0.3s ease;
+    }
+
+    .time-unit:hover {
+      transform: scale(1.05);
+      border-color: rgba(96, 165, 250, 0.7);
+      box-shadow: 0 0 60px rgba(59, 130, 246, 1);
+    }
+
+    .time-value {
+      font-size: 40px;
+      font-weight: 900;
+      color: #ffffff;
+      display: block;
+      line-height: 1;
+      text-shadow: 0 0 20px rgba(59, 130, 246, 1), 
+                   0 0 40px rgba(96, 165, 250, 0.8),
+                   0 0 60px rgba(59, 130, 246, 0.6);
+    }
+
+    .time-label {
+      font-size: 11px;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 10px;
+      display: block;
+      font-weight: 600;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 15px rgba(96, 165, 250, 0.4);
+    }
+
+    .timer-status {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #fcd34d;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 0 25px rgba(252, 211, 77, 1), 
+                   0 0 50px rgba(251, 191, 36, 0.7),
+                   0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Participants Section */
+    .participants-section {
+      padding: 28px 24px;
+      animation-delay: 0.4s;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 24px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 30px rgba(59, 130, 246, 1), 
+                   0 0 50px rgba(96, 165, 250, 0.7),
+                   0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .participants-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .participant-item {
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 16px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.3s ease;
+      animation: slideIn 0.5s ease-out backwards;
+    }
+
+    .participant-item:nth-child(1) { animation-delay: 0.1s; }
+    .participant-item:nth-child(2) { animation-delay: 0.15s; }
+    .participant-item:nth-child(3) { animation-delay: 0.2s; }
+    .participant-item:nth-child(4) { animation-delay: 0.25s; }
+    .participant-item:nth-child(5) { animation-delay: 0.3s; }
+    .participant-item:nth-child(6) { animation-delay: 0.35s; }
+    .participant-item:nth-child(7) { animation-delay: 0.4s; }
+    .participant-item:nth-child(8) { animation-delay: 0.45s; }
+
+    .participant-item:hover {
+      background: rgba(59, 130, 246, 0.25);
+      border-color: rgba(96, 165, 250, 0.6);
+      transform: translateX(8px) scale(1.02);
+      box-shadow: 0 4px 30px rgba(59, 130, 246, 0.5), 0 0 60px rgba(59, 130, 246, 0.3);
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .participant-number {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.5), 0 0 30px rgba(59, 130, 246, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .participant-item:hover .participant-number {
+      transform: rotate(360deg);
+      box-shadow: 0 4px 30px rgba(59, 130, 246, 0.8), 0 0 50px rgba(59, 130, 246, 0.5);
+    }
+
+    .participant-name {
+      font-size: 17px;
+      font-weight: 600;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 32px;
+      padding: 20px;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 500;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 15px rgba(96, 165, 250, 0.3);
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .main-title {
+        font-size: 34px;
+      }
+
+      .winner-button {
+        font-size: 17px;
+        padding: 16px 36px;
+      }
+
+      .trophy-icon {
+        font-size: 24px;
+      }
+
+      .time-unit {
+        min-width: 80px;
+        padding: 16px 12px;
+      }
+
+      .time-value {
+        font-size: 36px;
+      }
+
+      .timer-card {
+        padding: 28px 16px;
+      }
+
+      .glass-card {
+        padding: 20px 16px;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="main-wrapper">
+   <div class="container"><!-- Live Badge -->
+    <div style="display: flex; justify-content: center;">
+     <div class="live-badge">
+      <div class="live-dot"></div><span class="live-text">Live</span>
+     </div>
+    </div><!-- Winner Button (appears at 7 PM) -->
+    <div class="winner-button-wrapper" id="winnerButtonWrapper"><a href="#" class="winner-button" id="winnerButton" target="_blank" rel="noopener noreferrer"> <span class="trophy-icon">🏆</span> <span id="winnerButtonText">Check Winner</span> </a>
+    </div><!-- Header -->
+    <header class="header">
+     <h1 class="main-title" id="pageTitle">LIVE CONTEST</h1>
+     <p class="subtitle" id="contestSubtitle">Daily Participant Challenge</p>
+    </header><!-- Date Card -->
+    <div class="glass-card date-card">
+     <div class="date-label">
+      Contest Date
+     </div>
+     <div class="date-value" id="currentDate"></div>
+    </div><!-- Timer Card -->
+    <div class="glass-card timer-card">
+     <div class="timer-label">
+      Time Remaining
+     </div>
+     <div class="timer-display" id="timerDisplay">
+      <div class="time-unit"><span class="time-value" id="hours">00</span> <span class="time-label">Hours</span>
+      </div>
+      <div class="time-unit"><span class="time-value" id="minutes">00</span> <span class="time-label">Minutes</span>
+      </div>
+      <div class="time-unit"><span class="time-value" id="seconds">00</span> <span class="time-label">Seconds</span>
+      </div>
+     </div>
+     <div class="timer-status" id="timerStatus"></div>
+    </div><!-- Participants Section -->
+    <div class="glass-card participants-section">
+     <h2 class="section-title" id="participantsHeading">Today's Participants</h2>
+     <div class="participants-list" id="participantsList"></div>
+    </div><!-- Footer -->
+    <footer class="footer">
+     <p>✨ Automatically updates in real-time • No refresh needed</p>
+    </footer>
+   </div>
   </div>
-</div>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script>
+    // ========================================
+    // CONFIGURATION SECTION - EDIT VALUES HERE
+    // ========================================
+    const CONFIG = {
+      // Contest Timing (24-hour format: HH:MM)
+      contestStartTime: "10:00",      // Contest start time (10:00 AM)
+      contestEndTime: "18:00",        // Contest end time (6:00 PM)
+      buttonActivationTime: "19:00",  // When winner button appears (7:00 PM)
+      
+      // Participants List
+      participants: [
+        "Suraj Pandey",
+        "Rahul",
+        "Kaushal",
+        "Nonu",
+        "Prem",
+        "Pavan Kashpay",
+        "Subham",
+        "Gagan",
+        "Rohan"
+      ],
+      
+      // Winner Button Details (No winner name displayed)
+      winnerButtonText: "Check Winner",
+      winnerButtonLink: "https://porterwinners.vercel.app",
+      
+      // Text Content
+      pageTitle: "LIVE CONTEST",
+      contestSubtitle: "Daily Participant Challenge",
+      participantsHeading: "Today's Participants"
+    };
+    // ========================================
+    // END CONFIGURATION SECTION
+    // ========================================
 
-<script src="script.js"></script>
-</body>
+    // Default config for SDK
+    const defaultConfig = {
+      page_title: "LIVE CONTEST",
+      contest_subtitle: "Daily Participant Challenge",
+      participants_heading: "Today's Participants",
+      winner_button_text: "Check Winner"
+    };
+
+    // Initialize Element SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          document.getElementById('pageTitle').textContent = config.page_title || defaultConfig.page_title;
+          document.getElementById('contestSubtitle').textContent = config.contest_subtitle || defaultConfig.contest_subtitle;
+          document.getElementById('participantsHeading').textContent = config.participants_heading || defaultConfig.participants_heading;
+          document.getElementById('winnerButtonText').textContent = config.winner_button_text || defaultConfig.winner_button_text;
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["page_title", config.page_title || defaultConfig.page_title],
+          ["contest_subtitle", config.contest_subtitle || defaultConfig.contest_subtitle],
+          ["participants_heading", config.participants_heading || defaultConfig.participants_heading],
+          ["winner_button_text", config.winner_button_text || defaultConfig.winner_button_text]
+        ])
+      });
+    }
+
+    // Parse time string to minutes from midnight
+    function parseTime(timeStr) {
+      const [hours, minutes] = timeStr.split(':').map(Number);
+      return hours * 60 + minutes;
+    }
+
+    // Get current time in minutes from midnight
+    function getCurrentTimeInMinutes() {
+      const now = new Date();
+      return now.getHours() * 60 + now.getMinutes();
+    }
+
+    // Format date
+    function formatDate() {
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date().toLocaleDateString('en-US', options);
+    }
+
+    // Display current date
+    document.getElementById('currentDate').textContent = formatDate();
+
+    // Render participants
+    function renderParticipants() {
+      const list = document.getElementById('participantsList');
+      list.innerHTML = CONFIG.participants.map((name, index) => `
+        <div class="participant-item">
+          <div class="participant-number">${index + 1}</div>
+          <div class="participant-name">${name}</div>
+        </div>
+      `).join('');
+    }
+
+    renderParticipants();
+
+    // Update timer
+    function updateTimer() {
+      const now = new Date();
+      const currentMinutes = getCurrentTimeInMinutes();
+      const startMinutes = parseTime(CONFIG.contestStartTime);
+      const endMinutes = parseTime(CONFIG.contestEndTime);
+      const buttonActivationMinutes = parseTime(CONFIG.buttonActivationTime);
+
+      const timerStatus = document.getElementById('timerStatus');
+      const winnerButtonWrapper = document.getElementById('winnerButtonWrapper');
+
+      // Check if button activation time has passed
+      if (currentMinutes >= buttonActivationMinutes) {
+        document.getElementById('timerDisplay').style.display = 'none';
+        timerStatus.textContent = 'Contest Ended';
+        winnerButtonWrapper.classList.add('active');
+        document.getElementById('winnerButton').href = CONFIG.winnerButtonLink;
+        document.getElementById('winnerButtonText').textContent = CONFIG.winnerButtonText;
+        return;
+      }
+
+      // Check if before start time
+      if (currentMinutes < startMinutes) {
+        const minutesUntilStart = startMinutes - currentMinutes;
+        const hoursUntilStart = Math.floor(minutesUntilStart / 60);
+        const minsUntilStart = minutesUntilStart % 60;
+        
+        document.getElementById('hours').textContent = String(hoursUntilStart).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minsUntilStart).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(60 - now.getSeconds()).padStart(2, '0');
+        timerStatus.textContent = '⏳ Contest Starts Soon';
+        return;
+      }
+
+      // Check if after end time
+      if (currentMinutes >= endMinutes) {
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('minutes').textContent = '00';
+        document.getElementById('seconds').textContent = '00';
+        timerStatus.textContent = '⏰ Waiting For Winner';
+        return;
+      }
+
+      // Active contest - calculate time remaining until end
+      const endTime = new Date();
+      const [endHour, endMinute] = CONFIG.contestEndTime.split(':').map(Number);
+      endTime.setHours(endHour, endMinute, 0, 0);
+
+      const diff = endTime - now;
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+      timerStatus.textContent = '🔥 Contest Live Now!';
+    }
+
+    // Update timer immediately and then every second
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bdf281304c97ef8',t:'MTc2ODQxNDkyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
