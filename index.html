@@ -36,6 +36,7 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: linear-gradient(-45deg, #020617, #0c1844, #1e3a8a, #1e293b, #0f172a, #0a1628);
       background-size: 400% 400%;
+      background-attachment: fixed;
       animation: gradientShift 15s ease infinite;
       color: #ffffff;
       overflow-x: hidden;
@@ -209,10 +210,10 @@
     /* Header */
     @keyframes textGlow {
       0%, 100% {
-        filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 50px rgba(96, 165, 250, 0.6));
+        filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.5)) drop-shadow(0 0 25px rgba(96, 165, 250, 0.3));
       }
       50% {
-        filter: drop-shadow(0 0 40px rgba(59, 130, 246, 1)) drop-shadow(0 0 70px rgba(96, 165, 250, 0.9));
+        filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 35px rgba(96, 165, 250, 0.4));
       }
     }
 
@@ -229,9 +230,9 @@
       text-transform: uppercase;
       letter-spacing: 3px;
       animation: textGlow 3s ease-in-out infinite;
-      text-shadow: 0 0 30px rgba(96, 165, 250, 1), 
-                   0 0 60px rgba(59, 130, 246, 0.8),
-                   0 4px 20px rgba(0, 0, 0, 0.5);
+      text-shadow: 0 0 15px rgba(96, 165, 250, 0.6), 
+                   0 0 30px rgba(59, 130, 246, 0.4),
+                   0 4px 15px rgba(0, 0, 0, 0.3);
     }
 
     .subtitle {
@@ -239,7 +240,7 @@
       color: #ffffff;
       font-weight: 600;
       letter-spacing: 1px;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(96, 165, 250, 0.5);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 10px rgba(96, 165, 250, 0.3);
     }
 
     /* Glass Card Effect */
@@ -253,15 +254,16 @@
     }
 
     .glass-card {
-      background: rgba(15, 30, 60, 0.5);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(96, 165, 250, 0.2);
+      background: rgba(15, 30, 60, 0.6);
+      backdrop-filter: blur(25px);
+      border: 1.5px solid rgba(96, 165, 250, 0.25);
       border-radius: 24px;
       padding: 24px;
       margin-bottom: 20px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 
-                  0 0 60px rgba(59, 130, 246, 0.1),
-                  inset 0 1px 0 rgba(96, 165, 250, 0.15);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 
+                  0 0 80px rgba(59, 130, 246, 0.12),
+                  inset 0 1px 1px rgba(96, 165, 250, 0.2),
+                  inset 0 -1px 1px rgba(0, 0, 0, 0.2);
       animation: float 6s ease-in-out infinite;
     }
 
@@ -278,16 +280,16 @@
       letter-spacing: 2px;
       margin-bottom: 10px;
       font-weight: 600;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 15px rgba(96, 165, 250, 0.4);
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 0 8px rgba(96, 165, 250, 0.2);
     }
 
     .date-value {
       font-size: 22px;
       font-weight: 700;
       color: #60a5fa;
-      text-shadow: 0 0 25px rgba(96, 165, 250, 1), 
-                   0 0 50px rgba(59, 130, 246, 0.7),
-                   0 2px 10px rgba(0, 0, 0, 0.5);
+      text-shadow: 0 0 12px rgba(96, 165, 250, 0.6), 
+                   0 0 25px rgba(59, 130, 246, 0.4),
+                   0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     /* Timer Card */
@@ -304,7 +306,7 @@
       letter-spacing: 3px;
       margin-bottom: 20px;
       font-weight: 700;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 25px rgba(96, 165, 250, 0.5);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 12px rgba(96, 165, 250, 0.3);
     }
 
     .timer-display {
@@ -316,31 +318,32 @@
 
     @keyframes digitGlow {
       0%, 100% {
-        box-shadow: 0 0 30px rgba(59, 130, 246, 0.5), 
-                    0 0 60px rgba(59, 130, 246, 0.2),
-                    inset 0 0 20px rgba(59, 130, 246, 0.1);
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.3), 
+                    0 0 30px rgba(59, 130, 246, 0.15),
+                    inset 0 0 10px rgba(59, 130, 246, 0.08);
       }
       50% {
-        box-shadow: 0 0 50px rgba(59, 130, 246, 0.8), 
-                    0 0 80px rgba(59, 130, 246, 0.4),
-                    inset 0 0 30px rgba(59, 130, 246, 0.2);
+        box-shadow: 0 0 25px rgba(59, 130, 246, 0.4), 
+                    0 0 40px rgba(59, 130, 246, 0.2),
+                    inset 0 0 15px rgba(59, 130, 246, 0.12);
       }
     }
 
     .time-unit {
-      background: rgba(59, 130, 246, 0.15);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.1));
       border: 2px solid rgba(59, 130, 246, 0.4);
-      border-radius: 16px;
-      padding: 20px;
-      min-width: 90px;
+      border-radius: 18px;
+      padding: 22px;
+      min-width: 95px;
       animation: digitGlow 2s ease-in-out infinite;
-      transition: all 0.3s ease;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(96, 165, 250, 0.1);
     }
 
     .time-unit:hover {
       transform: scale(1.05);
-      border-color: rgba(96, 165, 250, 0.7);
-      box-shadow: 0 0 60px rgba(59, 130, 246, 1);
+      border-color: rgba(96, 165, 250, 0.6);
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.5), 0 0 50px rgba(59, 130, 246, 0.25);
     }
 
     .time-value {
@@ -349,9 +352,9 @@
       color: #ffffff;
       display: block;
       line-height: 1;
-      text-shadow: 0 0 20px rgba(59, 130, 246, 1), 
-                   0 0 40px rgba(96, 165, 250, 0.8),
-                   0 0 60px rgba(59, 130, 246, 0.6);
+      text-shadow: 0 0 10px rgba(59, 130, 246, 0.6), 
+                   0 0 20px rgba(96, 165, 250, 0.4),
+                   0 0 30px rgba(59, 130, 246, 0.3);
     }
 
     .time-label {
@@ -362,7 +365,7 @@
       margin-top: 10px;
       display: block;
       font-weight: 600;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 15px rgba(96, 165, 250, 0.4);
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 0 8px rgba(96, 165, 250, 0.2);
     }
 
     .timer-status {
@@ -372,9 +375,9 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
-      text-shadow: 0 0 25px rgba(252, 211, 77, 1), 
-                   0 0 50px rgba(251, 191, 36, 0.7),
-                   0 2px 10px rgba(0, 0, 0, 0.5);
+      text-shadow: 0 0 12px rgba(252, 211, 77, 0.6), 
+                   0 0 25px rgba(251, 191, 36, 0.4),
+                   0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     /* Participants Section */
@@ -391,9 +394,9 @@
       text-align: center;
       text-transform: uppercase;
       letter-spacing: 2px;
-      text-shadow: 0 0 30px rgba(59, 130, 246, 1), 
-                   0 0 50px rgba(96, 165, 250, 0.7),
-                   0 2px 10px rgba(0, 0, 0, 0.5);
+      text-shadow: 0 0 15px rgba(59, 130, 246, 0.6), 
+                   0 0 25px rgba(96, 165, 250, 0.4),
+                   0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     .participants-list {
@@ -404,7 +407,7 @@
     @keyframes slideIn {
       from {
         opacity: 0;
-        transform: translateX(-20px);
+        transform: translateX(-30px);
       }
       to {
         opacity: 1;
@@ -413,31 +416,44 @@
     }
 
     .participant-item {
-      background: rgba(59, 130, 246, 0.12);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.08));
       border: 1px solid rgba(59, 130, 246, 0.3);
       border-radius: 16px;
       padding: 18px 20px;
       display: flex;
       align-items: center;
       gap: 16px;
-      transition: all 0.3s ease;
-      animation: slideIn 0.5s ease-out backwards;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
 
-    .participant-item:nth-child(1) { animation-delay: 0.1s; }
-    .participant-item:nth-child(2) { animation-delay: 0.15s; }
-    .participant-item:nth-child(3) { animation-delay: 0.2s; }
-    .participant-item:nth-child(4) { animation-delay: 0.25s; }
-    .participant-item:nth-child(5) { animation-delay: 0.3s; }
-    .participant-item:nth-child(6) { animation-delay: 0.35s; }
-    .participant-item:nth-child(7) { animation-delay: 0.4s; }
-    .participant-item:nth-child(8) { animation-delay: 0.45s; }
+    .participant-item:nth-child(1) { animation-delay: 0.05s; }
+    .participant-item:nth-child(2) { animation-delay: 0.1s; }
+    .participant-item:nth-child(3) { animation-delay: 0.15s; }
+    .participant-item:nth-child(4) { animation-delay: 0.2s; }
+    .participant-item:nth-child(5) { animation-delay: 0.25s; }
+    .participant-item:nth-child(6) { animation-delay: 0.3s; }
+    .participant-item:nth-child(7) { animation-delay: 0.35s; }
+    .participant-item:nth-child(8) { animation-delay: 0.4s; }
+    .participant-item:nth-child(9) { animation-delay: 0.45s; }
+    .participant-item:nth-child(10) { animation-delay: 0.5s; }
+    .participant-item:nth-child(11) { animation-delay: 0.55s; }
+    .participant-item:nth-child(12) { animation-delay: 0.6s; }
+    .participant-item:nth-child(13) { animation-delay: 0.65s; }
+    .participant-item:nth-child(14) { animation-delay: 0.7s; }
+    .participant-item:nth-child(15) { animation-delay: 0.75s; }
+    .participant-item:nth-child(16) { animation-delay: 0.8s; }
+    .participant-item:nth-child(17) { animation-delay: 0.85s; }
+    .participant-item:nth-child(18) { animation-delay: 0.9s; }
+    .participant-item:nth-child(19) { animation-delay: 0.95s; }
+    .participant-item:nth-child(20) { animation-delay: 1s; }
 
     .participant-item:hover {
-      background: rgba(59, 130, 246, 0.25);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(37, 99, 235, 0.15));
       border-color: rgba(96, 165, 250, 0.6);
-      transform: translateX(8px) scale(1.02);
-      box-shadow: 0 4px 30px rgba(59, 130, 246, 0.5), 0 0 60px rgba(59, 130, 246, 0.3);
+      transform: translateX(10px) scale(1.03);
+      box-shadow: 0 6px 30px rgba(59, 130, 246, 0.35), 0 0 50px rgba(59, 130, 246, 0.2);
     }
 
     @keyframes rotate {
@@ -460,13 +476,13 @@
       font-weight: 800;
       font-size: 16px;
       flex-shrink: 0;
-      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.5), 0 0 30px rgba(59, 130, 246, 0.3);
-      transition: transform 0.3s ease;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3), 0 0 20px rgba(59, 130, 246, 0.2);
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .participant-item:hover .participant-number {
       transform: rotate(360deg);
-      box-shadow: 0 4px 30px rgba(59, 130, 246, 0.8), 0 0 50px rgba(59, 130, 246, 0.5);
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4), 0 0 30px rgba(59, 130, 246, 0.25);
     }
 
     .participant-name {
@@ -474,7 +490,7 @@
       font-weight: 600;
       color: #ffffff;
       letter-spacing: 0.5px;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.3);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 10px rgba(59, 130, 246, 0.15);
     }
 
     /* Footer */
@@ -485,7 +501,7 @@
       color: #ffffff;
       font-size: 13px;
       font-weight: 500;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 15px rgba(96, 165, 250, 0.3);
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 0 8px rgba(96, 165, 250, 0.15);
     }
 
     /* Responsive */
@@ -575,21 +591,32 @@
     // ========================================
     const CONFIG = {
       // Contest Timing (24-hour format: HH:MM)
-      contestStartTime: "22:00",      // Contest start time (10:00 AM)
+      contestStartTime: "10:00",      // Contest start time (10:00 AM)
       contestEndTime: "18:00",        // Contest end time (6:00 PM)
       buttonActivationTime: "19:00",  // When winner button appears (7:00 PM)
       
       // Participants List
       participants: [
         "Suraj Pandey",
-        "Rahul",
-        "Kaushal",
-        "Nonu",
-        "Prem",
-        "Pavan Kashpay",
-        "Subham",
-        "Gagan",
-        "Rohan"
+        "Priya Sharma",
+        "Amit Patel",
+        "Sneha Gupta",
+        "Vikram Singh",
+        "Anjali Verma",
+        "Rahul Mehta",
+        "Pooja Reddy",
+        "Arjun Nair",
+        "Kavya Iyer",
+        "Rohan Desai",
+        "Meera Kapoor",
+        "Siddharth Roy",
+        "Ananya Pillai",
+        "Karthik Rao",
+        "Divya Menon",
+        "Aditya Joshi",
+        "Riya Malhotra",
+        "Nikhil Shetty",
+        "Isha Agarwal"
       ],
       
       // Winner Button Details (No winner name displayed)
@@ -683,7 +710,7 @@
       const timerStatus = document.getElementById('timerStatus');
       const winnerButtonWrapper = document.getElementById('winnerButtonWrapper');
 
-      // Check if button activation time has passed
+      // Check if button activation time has passed (after 7 PM)
       if (currentMinutes >= buttonActivationMinutes) {
         document.getElementById('timerDisplay').style.display = 'none';
         timerStatus.textContent = 'Contest Ended';
@@ -693,7 +720,7 @@
         return;
       }
 
-      // Check if before start time
+      // Check if before start time (before 10 AM)
       if (currentMinutes < startMinutes) {
         const minutesUntilStart = startMinutes - currentMinutes;
         const hoursUntilStart = Math.floor(minutesUntilStart / 60);
@@ -706,7 +733,7 @@
         return;
       }
 
-      // Check if after end time
+      // Check if after end time (after 6 PM but before 7 PM)
       if (currentMinutes >= endMinutes) {
         document.getElementById('hours').textContent = '00';
         document.getElementById('minutes').textContent = '00';
@@ -735,5 +762,5 @@
     updateTimer();
     setInterval(updateTimer, 1000);
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bdf281304c97ef8',t:'MTc2ODQxNDkyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bdf5ea8111d7ef8',t:'MTc2ODQxNzE1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
